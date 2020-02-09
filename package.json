@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/schier-brothers/DnDeep-backend#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.8.11",
+    "morgan": "^1.9.1"
   }
 }
