@@ -2,8 +2,8 @@
   "name": "dndeep-backend",
   "version": "1.0.0",
   "description": "The backend part of DnDeep",
-  "main": "app.js",
   "scripts": {
+    "start": "node ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,7 +18,11 @@
   "homepage": "https://github.com/schier-brothers/DnDeep-backend#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "find-or-create": "^2.0.0",
     "mongoose": "^5.8.11",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "passport": "^0.4.1",
+    "passport-google-oauth": "^2.0.0"
   }
 }

@@ -1,18 +1,40 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const logger = require('morgan');
+const passport = require('passport');
+const session = require('express-session');
+
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var auth = require('./routes/auth');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost/test', function(err) {
-    if(err) throw err;
-    console.log('Successfully connected to database!');
-})
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/test', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+  .then(() =>  console.log('connection successful'))
+  .catch((err) => console.error(err));
 
 app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
+app.use(session({
+   secret: 's3cr3t',
+   resave: true,
+   saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/auth', auth);
+
+module.exports = app;
+/*
 app.get('/', function (req, res) {
-   res.send('Hello World');
+   res.send('<a href="/auth/google">Sign In with Google</a> \n <a href="/logout">logout</a>');
 })
 
 var server = app.listen(8081, "127.0.0.1", function () {
@@ -20,4 +42,4 @@ var server = app.listen(8081, "127.0.0.1", function () {
    var port = server.address().port;
 
    console.log("Example app listening at http://%s:%s", host, port);
-})
+})*/
