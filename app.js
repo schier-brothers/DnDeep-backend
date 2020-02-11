@@ -7,11 +7,12 @@ const session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var auth = require('./routes/auth');
+var charactersRouter = require('./routes/characters')
 
 const app = express();
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/test', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+mongoose.connect('mongodb+srv://EmilSchier:Minkodehertiler1%21@node-rest-shop-u8mvl.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(() =>  console.log('connection successful'))
   .catch((err) => console.error(err));
 
@@ -30,6 +31,7 @@ app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', auth);
+app.use('/characters',charactersRouter );
 
 module.exports = app;
 /*
