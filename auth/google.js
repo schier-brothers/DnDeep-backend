@@ -23,7 +23,7 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     // FIXME Debug line
-    console.log("logged in!!!");
+    console.log('logged in!!!');
     User.findOrCreate({ userid: profile.id }, { name: profile.displayName, userid: profile.id }, function (err, user) {
       return done(err, user);
     });
