@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/schier-brothers/DnDeep-backend#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "find-or-create": "^2.0.0",

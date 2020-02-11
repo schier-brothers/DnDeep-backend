@@ -1,6 +1,10 @@
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = require('../models/User');
+require('dotenv').config();
+
+const SERVER_URL = 'http://' + process.env.SERVER_ADDRESS + ':' + process.env.PORT;
+const CALLBACK_URL = SERVER_URL + '/auth/google/callback';
 
 passport.serializeUser(function (user, fn) {
   fn(null, user);
@@ -13,9 +17,9 @@ passport.deserializeUser(function (id, fn) {
 });
 
 passport.use(new GoogleStrategy({
-    clientID: "321138157267-llg1g0qv2kpp5lrg43sablqeot01libh.apps.googleusercontent.com",
-    clientSecret: "g8uRU_yMjyQpGTYsdBuxY_y7",
-    callbackURL: "http://127.0.0.1:3000/auth/google/callback"
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: CALLBACK_URL
   },
   function(accessToken, refreshToken, profile, done) {
     // FIXME Debug line
