@@ -9,7 +9,7 @@ var CharacterClassSchema = new mongoose.Schema({
       type: String,
       enum: ['STR', 'DEX', 'CON', 'INT', 'WIS','CHA']
     }],
-    default: undefined 
+    default: null 
   },
   hitDie: {
     type: String,
