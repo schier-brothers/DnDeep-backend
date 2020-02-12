@@ -12,7 +12,6 @@ to create a Character send a POST request to http://localhost:3000/characters/ (
         "20",
         "20"
     ],
-    "_id": "5e42c05e0b7a2c3cc094bc90",
     "name": "Test",
     "proficiencyBonus": "5",
     "hp": "43",
@@ -21,9 +20,8 @@ to create a Character send a POST request to http://localhost:3000/characters/ (
     "description": "Endnu en test før jeg oploader det"
 	
 }
- POST Request to http://localhost:3000/characters/characterId (if on local host) with a Json body similar to seen bellow will update the given parameters of the Character with characterId.
- [
+PATCH request to http://localhost:3000/characters/{characterId} (if on local host) with a Json body similar to seen bellow will update the given parameters of the Character with characterId.
+[
 	{"propName":"name", "value": "Emil Schier Christiansen"},
 	{"propName":"level", "value": "10"}
 ]
-

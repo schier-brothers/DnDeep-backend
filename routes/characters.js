@@ -44,7 +44,7 @@ router.post('/', (req, res, next) => {
     description: req.body.description,
     abilityScores: req.body.abilityScores,
     race: req.body.raceId,
-    class: req.body.characterClassId
+    characterClass: req.body.characterClassId
 
   });
   character.save()
@@ -61,7 +61,7 @@ router.post('/', (req, res, next) => {
           description: result.description,
           abilityScores: result.abilityScores,
           race: result.raceId,
-          class: result.characterClassId,
+          characterClass: result.characterClassId,
           request: {
             type: 'GET',
             url: 'http://localhost:3000/characters/' + result._id
@@ -75,10 +75,10 @@ router.post('/', (req, res, next) => {
     });
 });
 
-router.get('/:charactertId', (req, res, next) => {
-  const id = req.params.charactertId;
+router.get('/:characterId', (req, res, next) => {
+  const id = req.params.characterId;
   Character.findById(id)
-    .select('_id name level proficiencyBonus hp hpMax speed description abilityScores race class')
+    .select('-__v')
     .exec()
     .then(doc => {
       if (doc) {
@@ -93,8 +93,8 @@ router.get('/:charactertId', (req, res, next) => {
     });
 });
 
-router.patch('/:charactertId',(req, res, next) => {
-  const id = req.params.charactertId;
+router.patch('/:characterId',(req, res, next) => {
+  const id = req.params.characterId;
   const updateOps = {};
   for(const ops of req.body){
     updateOps[ops.propName] = ops.value;
@@ -115,8 +115,8 @@ router.patch('/:charactertId',(req, res, next) => {
   });
 });
 
-router.delete('/:charactertId', (req, res, next) => {
-  const id = req.params.charactertId;
+router.delete('/:characterId', (req, res, next) => {
+  const id = req.params.characterId;
   Character.deleteOne({ _id: id })
     .exec()
     .then(result => {
@@ -129,6 +129,5 @@ router.delete('/:charactertId', (req, res, next) => {
       res.status(500).json({ error: err });
     });
 });
-
 
 module.exports = router;
