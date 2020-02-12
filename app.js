@@ -8,11 +8,14 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var auth = require('./routes/auth');
 var charactersRouter = require('./routes/characters');
+require('dotenv').config();
+
 
 const app = express();
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb+srv://EmilSchier:Minkodehertiler1%21@node-rest-shop-u8mvl.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+mongoose.connect(process.env.DB_CONN, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+
   .then(() =>  console.log('connection successful'))
   .catch((err) => console.error(err));
 
@@ -21,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(session({
-   secret: 's3cr3t',
+   secret: process.env.COOKIE_SECRET,
    resave: true,
    saveUninitialized: true
 }));

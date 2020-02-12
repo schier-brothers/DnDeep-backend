@@ -1,6 +1,7 @@
 # DnDeep-backend
 The backend part of DnDeep
 
+
 to create a Character send a POST request to http://localhost:3000/characters/ (if on local host) with a body similar to what is seen bellow:
 {
 	 "level": "10",
@@ -25,3 +26,12 @@ PATCH request to http://localhost:3000/characters/{characterId} (if on local hos
 	{"propName":"name", "value": "Emil Schier Christiansen"},
 	{"propName":"level", "value": "10"}
 ]
+
+You should have a ".env." file with the following content in your base directory:
+`COOKIE_SECRET=
+ GOOGLE_CLIENT_ID=
+ GOOGLE_CLIENT_SECRET=
+ DB_CONN=
+ SERVER_ADDRESS=
+ PORT=`
+
