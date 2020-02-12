@@ -11,7 +11,7 @@ router.get('/', (req, res, next) => {
     .then((docs) => {
       var response = {
         count: docs.length,
-        characters: docs.map(doc => {
+        characters: docs.map((doc) => {
           return {
             _id: doc._id,
             name: doc.name,
@@ -25,7 +25,7 @@ router.get('/', (req, res, next) => {
       };
       res.status(200).json(response);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json({ error: err });
     });
@@ -69,7 +69,7 @@ router.post('/', (req, res, next) => {
         }
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json({ error: err });
     });
@@ -87,7 +87,7 @@ router.get('/:characterId', (req, res, next) => {
         res.status(404).json({ message: 'No valid entry found for provided ID' });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json({ error: err });
     });
@@ -109,7 +109,7 @@ router.patch('/:characterId',(req, res, next) => {
         }
     });
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err);
     res.status(500).json({error: err});
   });
@@ -124,7 +124,7 @@ router.delete('/:characterId', (req, res, next) => {
         message: 'Character deleted',
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json({ error: err });
     });
