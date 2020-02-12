@@ -1,5 +1,5 @@
 var express = require('express');
-var router = express.Router();
+var router = new express.Router();
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next() }

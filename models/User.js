@@ -6,6 +6,6 @@ var UserSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
-UserSchema.statics.findOrCreate = require("find-or-create");
+UserSchema.statics.findOrCreate = require('find-or-create');
 
 module.exports = mongoose.model('User', UserSchema);
