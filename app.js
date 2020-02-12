@@ -7,12 +7,15 @@ const session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var auth = require('./routes/auth');
+var charactersRouter = require('./routes/characters');
 require('dotenv').config();
+
 
 const app = express();
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DB_CONN, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+
   .then(() =>  console.log('connection successful'))
   .catch((err) => console.error(err));
 
@@ -31,6 +34,7 @@ app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', auth);
+app.use('/characters',charactersRouter );
 
 module.exports = app;
 /*
