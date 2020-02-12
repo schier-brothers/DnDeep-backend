@@ -1,5 +1,5 @@
 var express = require('express');
-var router = express.Router();
+var router = new express.Router();
 var mongoose = require('mongoose');
 
 var Character = require('../models/Character');
@@ -102,7 +102,7 @@ router.patch('/:characterId',(req, res, next) => {
   Character.updateOne({_id: id}, {$set: updateOps })
   .exec()
   .then((result) => {
-    res.status(200).json({ message: 'Character updatet.',
+    res.status(200).json({ message: 'Character updated.',
         request: {
           type: 'GET',
           url: 'http://localhost:3000/characters/' + id
