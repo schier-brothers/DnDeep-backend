@@ -5,9 +5,11 @@ var CharacterClassSchema = new mongoose.Schema({
   name: String,
   description: String,
   savingThrows: {
-    type: [String],
-    enum: ['STR', 'DEX', 'CON', 'INT', 'WIS','CHA'],
-    default: undefined
+    type: [{
+      type: String,
+      enum: ['STR', 'DEX', 'CON', 'INT', 'WIS','CHA']
+    }],
+    default: undefined 
   },
   hitDie: {
     type: String,

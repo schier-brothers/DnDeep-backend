@@ -8,7 +8,7 @@ router.get('/', (req, res, next) => {
   Character.find()
     .select('_id name level')
     .exec()
-    .then(docs => {
+    .then((docs) => {
       var response = {
         count: docs.length,
         characters: docs.map(doc => {
@@ -20,7 +20,7 @@ router.get('/', (req, res, next) => {
               type: 'GET',
               url: 'http://localhost:3000/characters/' + doc._id
             }
-          }
+          };
         })
       };
       res.status(200).json(response);
@@ -28,7 +28,7 @@ router.get('/', (req, res, next) => {
     .catch(err => {
       console.log(err);
       res.status(500).json({ error: err });
-    });;
+    });
 });
 
 router.post('/', (req, res, next) => {
@@ -48,7 +48,7 @@ router.post('/', (req, res, next) => {
 
   });
   character.save()
-    .then(result => {
+    .then((result) => {
       res.status(201).json({
         createdCharacter: {
           _id: result._id,
@@ -80,7 +80,7 @@ router.get('/:characterId', (req, res, next) => {
   Character.findById(id)
     .select('-__v')
     .exec()
-    .then(doc => {
+    .then((doc) => {
       if (doc) {
         res.status(200).json(doc);
       } else {
@@ -101,7 +101,7 @@ router.patch('/:characterId',(req, res, next) => {
   }
   Character.updateOne({_id: id}, {$set: updateOps })
   .exec()
-  .then(result => {
+  .then((result) => {
     res.status(200).json({ message: 'Character updatet.',
         request: {
           type: 'GET',
@@ -119,7 +119,7 @@ router.delete('/:characterId', (req, res, next) => {
   const id = req.params.characterId;
   Character.deleteOne({ _id: id })
     .exec()
-    .then(result => {
+    .then((result) => {
       res.status(200).json({
         message: 'Character deleted',
       });
