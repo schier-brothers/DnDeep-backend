@@ -1,12 +1,12 @@
 
 class CharacterService {
   constructor(characterModel, mongoose) {
-    this.characterModel = characterModel;
+    this.CharacterModel = characterModel;
     this.mongoose = mongoose;
   }
 
   async getFullList() {
-    var found = this.characterModel.find()
+    var found = this.CharacterModel.find()
       .select('-__v')
       .exec()
       .then((docs) => {
@@ -40,7 +40,7 @@ class CharacterService {
   }
 
   async getAbbreviatedList() {
-    var found = this.characterModel.find()
+    var found = this.CharacterModel.find()
       .select('-__v')
       .exec()
       .then((docs) => {
@@ -67,7 +67,7 @@ class CharacterService {
   }
 
   async createCharacter(body) {
-    const character = new this.characterModel({
+    const character = new this.CharacterModel({
       _id: new this.mongoose.Types.ObjectId(),
       name: body.name,
       level: body.level,
@@ -111,7 +111,7 @@ class CharacterService {
   }
 
   async findCharById(id) {
-    var found = await this.characterModel.findById(id).select('-__v')
+    var found = await this.CharacterModel.findById(id).select('-__v')
       .exec()
       .then((doc) => {
         if (doc) {
@@ -138,7 +138,7 @@ class CharacterService {
             }
           };
         } else {
-          return { message: 'no valid entry for provided ID' }
+          return { message: 'no valid entry for provided ID' };
         }
       })
       .catch((err) => {
@@ -153,9 +153,9 @@ class CharacterService {
     for (const ops of body) {
       updateOps[ops.propName] = ops.value;
     }
-    const response = this.characterModel.updateOne({ _id: id }, { $set: updateOps })
+    const response = this.CharacterModel.updateOne({ _id: id }, { $set: updateOps })
       .exec()
-      .then(result => {
+      .then((result) => {
         return {
           message: 'Character updated.',
           request: {
@@ -172,7 +172,7 @@ class CharacterService {
   }
 
   async deleteCharacter(id) {
-    return this.characterModel.deleteOne({ _id: id })
+    return this.CharacterModel.deleteOne({ _id: id })
       .exec()
       .then((result) => {
         return {

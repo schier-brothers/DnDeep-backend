@@ -1,10 +1,10 @@
 var express = require('express');
 var router = new express.Router();
 var mongoose = require('mongoose');
-var characterService = require('../services/characterService')
+var CharacterService = require('../services/characterService');
 var Character = require('../models/Character');
 
-const characterServiceInstance = new characterService(Character,mongoose);
+const characterServiceInstance = new CharacterService(Character,mongoose);
 
 router.get('/', async (req, res, next) => {
   res.status(200).json(await characterServiceInstance.getAbbreviatedList());
