@@ -80,8 +80,7 @@ class CharacterService {
       race: body.raceId,
       characterClass: body.characterClassId
     });
-    const createdChar = character.save()
-      .exec()
+    const createdChar = await character.save()
       .then((result) => {
         return {
           createdCharacter: {
