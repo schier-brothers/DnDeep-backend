@@ -32,7 +32,7 @@ var CharacterSchema = new mongoose.Schema({
     {type:Number, min:0, max: 20, default: 12},
     {type:Number, min:0, max: 20, default: 10},
     {type:Number, min:0, max: 20, default: 8}
-  ],
+  ] /*,
   race: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Race'//,
@@ -42,7 +42,7 @@ var CharacterSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'CharacterClass'//,
 //  required: true
-  }  
+  }  */
 });
 
 //CharacterSchema.statics.findOrCreate = require("find-or-create");
