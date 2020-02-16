@@ -1,33 +1,62 @@
 var express = require('express');
 var router = new express.Router();
-var mongoose = require('mongoose');
 var CharacterService = require('../services/characterService');
 var Character = require('../models/Character');
 
-const characterServiceInstance = new CharacterService(Character,mongoose);
+const characterService = new CharacterService(Character);
 
-router.get('/', async (req, res, next) => {
-  res.status(200).json(await characterServiceInstance.getAbbreviatedList());
+router.get('/', async (_req, res) => {
+  try {
+    res.status(200).json(await characterService.getAllCharacters());
+  } catch (error) {
+    error.statusCode = error.statusCode || 500;
+    res.status(error.statusCode).json({ 'message': error.message });
+  }
 });
 
-router.get('/fullList', async (req, res, next) => {
-  res.status(200).json(await characterServiceInstance.getFullList());
+router.get('/expand', async (_req, res) => {
+  try {
+    res.status(200).json(await characterService.getAllExpandedCharacters());
+  } catch (error) {
+    error.statusCode = error.statusCode || 500;
+    res.status(error.statusCode).json({ 'message': error.message });
+  }
 });
 
-router.post('/', async (req, res, next) => {
-  res.status(201).json(await characterServiceInstance.createCharacter(req.body));
+router.post('/', async (req, res) => {
+  try {
+    res.status(201).json(await characterService.createCharacter(req.body));
+  } catch (error) {
+    error.statusCode = error.statusCode || 500;
+    res.status(error.statusCode).json({ 'message': error.message });
+  }
 });
 
-router.get('/:characterId', async (req, res, next) => {
-  res.status(200).json(await characterServiceInstance.findCharById(req.params.characterId));
+router.get('/:characterId', async (req, res) => {
+  try {
+    res.status(200).json(await characterService.findCharacterById(req.params.characterId));
+  } catch (error) {
+    error.statusCode = error.statusCode || 500;
+    res.status(error.statusCode).json({ 'message': error.message });
+  }
 });
 
-router.patch('/:characterId', async (req, res, next) => {
-  res.status(200).json(await characterServiceInstance.updateCharacter(req.params.characterId, req.body));
+router.patch('/:characterId', async (req, res) => {
+  try {
+    res.status(200).json(await characterService.updateCharacter(req.params.characterId, req.body));
+  } catch (error) {
+    error.statusCode = error.statusCode || 500;
+    res.status(error.statusCode).json({ 'message': error.message });
+  }
 });
 
-router.delete('/:characterId', async (req, res, next) => {
-  res.status(200).json(await characterServiceInstance.deleteCharacter(req.params.characterId));
+router.delete('/:characterId', async (req, res) => {
+  try {
+    res.status(200).json(await characterService.deleteCharacter(req.params.characterId));
+  } catch (error) {
+    error.statusCode = error.statusCode || 500;
+    res.status(error.statusCode).json({ 'message': error.message });
+  }
 });
 
 module.exports = router;

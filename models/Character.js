@@ -1,8 +1,10 @@
 var mongoose = require('mongoose');
-//var Race = require('../models/Race')
 
 var CharacterSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    auto: true
+  },
   name: String,
   level: {
     type: Number,
@@ -11,7 +13,7 @@ var CharacterSchema = new mongoose.Schema({
     max: 20
   },
   proficiencyBonus: {
-    type: Number, 
+    type: Number,
     default: 2,
     min: 2,
     max: 6
@@ -32,19 +34,15 @@ var CharacterSchema = new mongoose.Schema({
     {type:Number, min:0, max: 20, default: 12},
     {type:Number, min:0, max: 20, default: 10},
     {type:Number, min:0, max: 20, default: 8}
-  ] /*,
+  ],
   race: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Race'//,
-//  required: true  
-  }, 
+    ref: 'Race'
+  },
   characterClass: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'CharacterClass'//,
-//  required: true
-  }  */
+    ref: 'CharacterClass'
+  }
 });
-
-//CharacterSchema.statics.findOrCreate = require("find-or-create");
 
 module.exports = mongoose.model('Character', CharacterSchema);

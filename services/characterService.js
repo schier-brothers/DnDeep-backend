@@ -1,186 +1,121 @@
-
 class CharacterService {
-  constructor(characterModel, mongoose) {
+  constructor(characterModel) {
     this.CharacterModel = characterModel;
-    this.mongoose = mongoose;
   }
 
-  async getFullList() {
-    var found = this.CharacterModel.find()
+  async getAllExpandedCharacters() {
+    return this.CharacterModel
+      .find()
       .select('-__v')
-      .exec()
-      .then((docs) => {
+      .lean()
+      .then((characters) => {
         return {
-          count: docs.length,
-          characters: docs.map((doc) => {
-            return {
-              _id: doc._id,
-              name: doc.name,
-              level: doc.level,
-              proficiencyBonus: doc.proficiencyBonus,
-              abilityScores: doc.abilityScores,
-              hp: doc.hp,
-              hpMax: doc.hpMax,
-              description: doc.description,
-              race: doc.raceId,
-              characterClass: doc.characterClassId,
-              request: {
-                type: 'GET',
-                url: 'http://' + process.env.SERVER_ADDRESS + ':' + process.env.PORT + '/characters/' + doc._id
-              }
-            };
-          })
+          count: characters.length,
+          characters: characters
         };
       })
       .catch((err) => {
-        console.log(err);
-        return err;
-      });
-    return found;
-  }
-
-  async getAbbreviatedList() {
-    var found = this.CharacterModel.find()
-      .select('-__v')
-      .exec()
-      .then((docs) => {
-        return {
-          count: docs.length,
-          characters: docs.map((doc) => {
-            return {
-              _id: doc._id,
-              name: doc.name,
-              level: doc.level,
-              request: {
-                type: 'GET',
-                url: 'http://' + process.env.SERVER_ADDRESS + ':' + process.env.PORT + '/characters/' + doc._id
-              }
-            };
-          })
-        };
-      })
-      .catch((err) => {
-        console.log(err);
-        return err;
-      });
-    return found;
-  }
-
-  async createCharacter(body) {
-    const character = new this.CharacterModel({
-      _id: new this.mongoose.Types.ObjectId(),
-      name: body.name,
-      level: body.level,
-      proficiencyBonus: body.proficiencyBonus,
-      hp: body.hp,
-      hpMax: body.hpMax,
-      speed: body.speed,
-      description: body.description,
-      abilityScores: body.abilityScores,
-      race: body.raceId,
-      characterClass: body.characterClassId
-    });
-    const createdChar = await character.save()
-      .then((result) => {
-        return {
-          createdCharacter: {
-            _id: result._id,
-            name: result.name,
-            level: result.level,
-            proficiencyBonus: result.proficiencyBonus,
-            hp: result.hp,
-            hpMax: result.hpMax,
-            speed: result.speed,
-            description: result.description,
-            abilityScores: result.abilityScores,
-            race: result.raceId,
-            characterClass: result.characterClassId,
-            request: {
-              type: 'GET',
-              url: 'http://' + process.env.SERVER_ADDRESS + ':' + process.env.PORT + '/characters/' + result._id
-            }
-          }
-        };
-      })
-      .catch((err) => {
-        console.log(err);
-        return err;
-      });
-    return createdChar;
-  }
-
-  async findCharById(id) {
-    var found = await this.CharacterModel.findById(id).select('-__v')
-      .exec()
-      .then((doc) => {
-        if (doc) {
-          return {
-            _id: doc._id,
-            name: doc.name,
-            level: doc.level,
-            proficiencyBonus: doc.proficiencyBonus,
-            abilityScores: doc.abilityScores,
-            hp: doc.hp,
-            hpMax: doc.hpMax,
-            description: doc.description,
-            race: doc.raceId,
-            characterClass: doc.characterClassId,
-            requests: {
-              raceRequest: {
-                type: 'GET',
-                url: 'http://' + process.env.SERVER_ADDRESS + ':' + process.env.PORT + '/race/' + doc.raceId
-              },
-              characterClassRequest: {
-                type: 'GET',
-                url: 'http://' + process.env.SERVER_ADDRESS + ':' + process.env.PORT + '/characterClass/' + doc.characterClassId
-              }
-            }
-          };
-        } else {
-          return { message: 'no valid entry for provided ID' };
+        if (!err.statusCode) {
+          err.message = 'Unknown error';
         }
+        throw err;
+      });
+  }
+
+  async getAllCharacters() {
+    return this.CharacterModel
+      .find()
+      .select('_id')
+      .lean()
+      .then((characters) => {
+        return {
+          count: characters.length,
+          characters: characters
+        };
       })
       .catch((err) => {
-        console.log(err);
-        return err;
+        if (!err.statusCode) {
+          err.message = 'Unknown error';
+        }
+        throw err;
       });
-    return found;
+  }
+
+  async createCharacter(characterParams) {
+    const character = new this.CharacterModel(characterParams);
+    return character
+      .save()
+      .then((savedCharacter) => {
+        return { '_id': savedCharacter._id };
+      })
+      .catch((err) => {
+        if (!err.statusCode) {
+          err.message = 'Unknown error';
+        }
+        throw err;
+      });
+  }
+
+  async findCharacterById(id) {
+    return await this.CharacterModel
+      .findById(id)
+      .select('-__v')
+      .then((character) => {
+        if (!character) {
+          throw {
+            'statusCode': 404,
+            'message': 'No character found for id: ' + id
+          };
+        }
+        return character;
+      })
+      .catch((err) => {
+        if (!err.statusCode) {
+          err.message = 'Unknown error';
+        }
+        throw err;
+      });
   }
 
   async updateCharacter(id, body) {
-    const updateOps = {};
-    for (const ops of body) {
-      updateOps[ops.propName] = ops.value;
-    }
-    const response = this.CharacterModel.updateOne({ _id: id }, { $set: updateOps })
-      .exec()
-      .then((result) => {
+    return this.CharacterModel.findByIdAndUpdate(id, body)
+      .then((character) => {
+        if (!character) {
+          throw {
+            'statusCode': 404,
+            'message': 'No character found for id: ' + id
+          };
+        }
         return {
-          message: 'Character updated.',
-          request: {
-            type: 'GET',
-            url: 'http://' + process.env.SERVER_ADDRESS + ':' + process.env.PORT + '/characters/' + id
-          }
+          message: 'Character updated'
         };
       })
       .catch((err) => {
-        console.log(err);
-        return err;
+        if (!err.statusCode) {
+          err.message = 'Unknown error';
+        }
+        throw err;
       });
-    return response;
   }
 
   async deleteCharacter(id) {
-    return this.CharacterModel.deleteOne({ _id: id })
-      .exec()
-      .then((result) => {
+    return this.CharacterModel.findByIdAndDelete(id)
+      .then((character) => {
+        if (!character) {
+          throw {
+            'statusCode': 404,
+            'message': 'No character found for id: ' + id
+          };
+        }
         return {
           message: 'Character deleted'
         };
       })
       .catch((err) => {
-        console.log(err);
-        return err;
+        if (!err.statusCode) {
+          err.message = 'Unknown error';
+        }
+        throw err;
       });
   }
 }

@@ -8,7 +8,7 @@ var RaceSchema = new mongoose.Schema({
     min: 0
   },
   description: String,
-  abilityScoreModifires: [
+  abilityScoreModifiers: [
     {type:Number, min:0, max: 5, default: 0},
     {type:Number, min:0, max: 5, default: 0},
     {type:Number, min:0, max: 5, default: 0},
