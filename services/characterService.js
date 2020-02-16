@@ -11,7 +11,7 @@ class CharacterService {
       .then((characters) => {
         return {
           count: characters.length,
-          characters: characters
+          characters
         };
       })
       .catch((err) => {
@@ -30,7 +30,7 @@ class CharacterService {
       .then((characters) => {
         return {
           count: characters.length,
-          characters: characters
+          characters
         };
       })
       .catch((err) => {
