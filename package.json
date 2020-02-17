@@ -1,0 +1,33 @@
+{
+  "name": "dndeep-backend",
+  "version": "1.0.0",
+  "description": "The backend part of DnDeep",
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schier-brothers/DnDeep-backend.git"
+  },
+  "author": "Schier Brothers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/schier-brothers/DnDeep-backend/issues"
+  },
+  "homepage": "https://github.com/schier-brothers/DnDeep-backend#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "find-or-create": "^2.0.0",
+    "mongoose": "^5.8.11",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.1",
+    "passport-google-oauth": "^2.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  }
+}
